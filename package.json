@@ -6,6 +6,12 @@
   "bugs": {
     "url": "https://github.com/goto-bus-stop/tfilter/issues"
   },
+  "dependencies": {
+    "defined": "^1.0.0",
+    "minimatch": "^3.0.4",
+    "resolve": "^1.5.0",
+    "shallow-copy": "0.0.1"
+  },
   "devDependencies": {
     "browserify": "^14.5.0",
     "standard": "^10.0.3",
@@ -28,11 +34,5 @@
   },
   "scripts": {
     "test": "standard && tape test/*.js"
-  },
-  "dependencies": {
-    "defined": "^1.0.0",
-    "minimatch": "^3.0.4",
-    "resolve": "^1.5.0",
-    "shallow-copy": "0.0.1"
   }
 }
