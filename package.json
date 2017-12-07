@@ -1,7 +1,7 @@
 {
   "name": "tfilter",
   "description": "selectively run browserify transforms using globs or a filter function",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Renée Kooi <renee@kooi.me>",
   "bugs": {
     "url": "https://github.com/goto-bus-stop/tfilter/issues"
