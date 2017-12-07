@@ -3,6 +3,7 @@ var vm = require('vm')
 var path = require('path')
 var spawn = require('child_process').spawnSync
 var browserify = require('browserify')
+var through = require('through2')
 var tfilter = require('../')
 var uppercaseify = require('./uppercaseify')
 
@@ -96,6 +97,37 @@ test('both include and exclude again', function (t) {
       t.ifError(err)
       t.deepEqual(uppercaseify.files.sort(), [ files.d ], 'should only include files that match include and do not match exclude')
     })
+})
+
+test.only('passes through transform options', function (t) {
+  t.plan(3)
+
+  bundle()
+    .transform(
+      tfilter(require('./optionsify'), { include: '{a,b}.*', exclude: '**/files/a.js' }),
+      { options: 'to', the: 'transform' }
+    )
+    .plugin(select, { file: 'b.js' })
+    .bundle(function (err, result) {
+      t.ifError(err)
+      var m = {}
+      vm.runInNewContext('M.r = ' + result, { M: m })
+      t.ok(m.r)
+      var opts = m.r(1)
+      t.ok(opts)
+      delete opts._flags
+      t.deepEqual(opts, {
+        options: 'to',
+        the: 'transform'
+      })
+    })
+
+  function select (b, opts) {
+    b.pipeline.get('syntax').unshift(through.obj(function onwrite (row, enc, cb) {
+      if (path.basename(row.file) === opts.file) cb(null, row)
+      else cb(null)
+    }))
+  }
 })
 
 test('cli', function (t) {

@@ -52,7 +52,7 @@ module.exports = function transformFilter (file, opts) {
     var shouldExclude = d(match(file, opts.exclude), false)
 
     if (!shouldExclude && shouldInclude) {
-      return transform(file, opts)
+      return transform(file, trOpts)
     }
 
     return through()
