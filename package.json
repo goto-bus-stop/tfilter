@@ -33,6 +33,6 @@
     "url": "https://github.com/goto-bus-stop/tfilter.git"
   },
   "scripts": {
-    "test": "standard && tape test/*.js"
+    "test": "standard && tape test/index.js"
   }
 }
