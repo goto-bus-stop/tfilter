@@ -1,4 +1,5 @@
 var test = require('tape')
+var vm = require('vm')
 var path = require('path')
 var spawn = require('child_process').spawnSync
 var browserify = require('browserify')
@@ -119,6 +120,22 @@ test('cli', function (t) {
     t.ok(/module\.exports = 'a'/.test(result), 'should not have transformed a.js')
     t.ok(/MODULE\.EXPORTS = 'B'/.test(result), 'should have transformed b.js')
   })
+
+  t.test('passes through transform options', function (t) {
+    t.plan(2)
+    var result = exec('browserify', [ '-s', 'OPTIONS', '-t', '[', tfilt, require.resolve('./optionsify'), 'positional', '--NODE_ENV', 'production', ']', files.b ])
+    var m = { exports: {} }
+    vm.runInNewContext(result, {
+      module: m,
+      exports: m.exports
+    })
+    t.ok(m.exports)
+    delete m.exports._flags
+    t.deepEqual(m.exports, {
+      _: [ 'positional' ],
+      NODE_ENV: 'production'
+    })
+  })
 })
 
 function bundle () {
@@ -131,5 +148,5 @@ function bundle () {
 
 function exec (cmd, args) {
   var result = spawn(cmd, args, { cwd: path.join(__dirname, '../') })
-  return result.stdout
+  return result.stdout.toString()
 }

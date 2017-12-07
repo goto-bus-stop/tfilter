@@ -5,12 +5,18 @@ var d = require('defined')
 var resolve = require('resolve')
 var minimatch = require('minimatch')
 var through = require('stream').PassThrough
+var copy = require('shallow-copy')
 
 module.exports = function transformFilter (file, opts) {
   // Used as a transform, eg from CLI
   if (opts && opts._flags) {
     var transformName = opts._[0]
     assert.equal(typeof transformName, 'string', 'transform-filter: must provide a transform, eg `-t [ transform-filter brfs --include \'*.js\' ]`')
+    var trOpts = copy(opts)
+    trOpts._ = trOpts._.slice(1)
+    delete trOpts.include
+    delete trOpts.exclude
+
     try {
       var transformPath = resolve.sync(transformName, { basedir: path.dirname(file) })
       var transform = require(transformPath)
@@ -22,7 +28,7 @@ module.exports = function transformFilter (file, opts) {
     var shouldExclude = d(match(file, opts.exclude), false)
 
     if (!shouldExclude && shouldInclude) {
-      return transform(file, opts)
+      return transform(file, trOpts)
     }
 
     return through()
