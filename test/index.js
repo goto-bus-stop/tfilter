@@ -99,8 +99,8 @@ test('both include and exclude again', function (t) {
     })
 })
 
-test.only('passes through transform options', function (t) {
-  t.plan(3)
+test('passes through transform options', function (t) {
+  t.plan(4)
 
   bundle()
     .transform(
