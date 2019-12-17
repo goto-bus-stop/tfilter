@@ -11,7 +11,7 @@ module.exports = function transformFilter (file, opts) {
   // Used as a transform, eg from CLI
   if (opts && opts._flags) {
     var transformName = opts._[0]
-    assert.equal(typeof transformName, 'string', 'transform-filter: must provide a transform, eg `-t [ transform-filter brfs --include \'*.js\' ]`')
+    assert.strictEqual(typeof transformName, 'string', 'transform-filter: must provide a transform, eg `-t [ transform-filter brfs --include \'*.js\' ]`')
     var trOpts = copy(opts)
     trOpts._ = trOpts._.slice(1)
     delete trOpts.include
@@ -36,12 +36,12 @@ module.exports = function transformFilter (file, opts) {
 
   // Called as a function, returning a transform
   var transform = file
-  assert.equal(typeof opts, 'object', 'transform-filter: options must be an object')
-  assert.equal(typeof transform, 'function', 'transform-filter: transform must be a function')
+  assert.strictEqual(typeof opts, 'object', 'transform-filter: options must be an object')
+  assert.strictEqual(typeof transform, 'function', 'transform-filter: transform must be a function')
 
   return function (file, trOpts) {
     if (opts.filter) {
-      assert.equal(typeof opts.filter, 'function', 'transform-filter: options.filter must be a function')
+      assert.strictEqual(typeof opts.filter, 'function', 'transform-filter: options.filter must be a function')
       return opts.filter(file) ? transform(file, trOpts) : through()
     }
 

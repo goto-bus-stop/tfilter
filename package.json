@@ -9,14 +9,14 @@
   "dependencies": {
     "defined": "^1.0.0",
     "minimatch": "^3.0.4",
-    "resolve": "^1.5.0",
+    "resolve": "^1.13.1",
     "shallow-copy": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "^14.5.0",
-    "standard": "^10.0.3",
-    "tape": "^4.8.0",
-    "through2": "^2.0.3"
+    "browserify": "^16.5.0",
+    "standard": "^14.3.1",
+    "tape": "^4.12.0",
+    "through2": "^2.0.5"
   },
   "homepage": "https://github.com/goto-bus-stop/tfilter",
   "keywords": [
