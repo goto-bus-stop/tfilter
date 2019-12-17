@@ -5,14 +5,14 @@ var d = require('defined')
 var resolve = require('resolve')
 var minimatch = require('minimatch')
 var through = require('stream').PassThrough
-var copy = require('shallow-copy')
+var xtend = require('xtend')
 
 module.exports = function transformFilter (file, opts) {
   // Used as a transform, eg from CLI
   if (opts && opts._flags) {
     var transformName = opts._[0]
     assert.strictEqual(typeof transformName, 'string', 'transform-filter: must provide a transform, eg `-t [ transform-filter brfs --include \'*.js\' ]`')
-    var trOpts = copy(opts)
+    var trOpts = xtend(opts)
     trOpts._ = trOpts._.slice(1)
     delete trOpts.include
     delete trOpts.exclude
