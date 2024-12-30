@@ -34,6 +34,8 @@
     "url": "https://github.com/goto-bus-stop/tfilter.git"
   },
   "scripts": {
-    "test": "standard && tape test/index.js"
+    "lint": "standard",
+    "tests-only": "tape test/index.js",
+    "test": "npm run tests-only && npm run lint"
   }
 }

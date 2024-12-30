@@ -1,0 +1,11 @@
+name: 'Node.js tests'
+
+on: [pull_request, push]
+
+jobs:
+  tests:
+    uses: ljharb/actions/.github/workflows/node.yml@main
+    with:
+      range: '>= 0.10'
+      type: minors
+      command: npm run test
