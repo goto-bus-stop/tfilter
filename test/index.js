@@ -7,6 +7,11 @@ var through = require('through2')
 var tfilter = require('../')
 var uppercaseify = require('./uppercaseify')
 
+// Round-trip JSON-serialize the object so its prototypes are all from this realm.
+function reparse (object) {
+  return JSON.parse(JSON.stringify(object))
+}
+
 var files = {
   a: path.join(__dirname, 'files', 'a.js'),
   b: path.join(__dirname, 'files', 'b.js'),
@@ -116,7 +121,7 @@ test('passes through transform options', function (t) {
       var opts = m.r(1)
       t.ok(opts)
       delete opts._flags
-      t.deepEqual(opts, {
+      t.deepEqual(reparse(opts), {
         options: 'to',
         the: 'transform'
       })
@@ -163,7 +168,7 @@ test('cli', function (t) {
     })
     t.ok(m.exports)
     delete m.exports._flags
-    t.deepEqual(m.exports, {
+    t.deepEqual(reparse(m.exports), {
       _: ['positional'],
       NODE_ENV: 'production'
     })
