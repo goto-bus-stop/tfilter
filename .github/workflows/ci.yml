@@ -1,0 +1,28 @@
+name: 'Node.js tests'
+
+on: [pull_request, push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: npm install
+      - run: npm run lint
+
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dcodeIO/setup-node-nvm@b6d6ed786666dee7d42186617cbb1394070de579
+        with:
+          node-version: ${{matrix.node-version}}
+      - run: nvm install-latest-npm
+      - run: npm install
+      - run: npm run tests-only
