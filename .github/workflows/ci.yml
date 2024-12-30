@@ -3,9 +3,17 @@ name: 'Node.js tests'
 on: [pull_request, push]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: npm install
+      - run: npm run lint
   tests:
     uses: ljharb/actions/.github/workflows/node.yml@main
     with:
       range: '>= 4'
       type: minors
-      command: npm run test
